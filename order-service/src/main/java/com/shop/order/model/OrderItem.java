@@ -1,19 +1,18 @@
-package com.shop.order.dto;
+package com.shop.order.model;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Builder
+@Document(value = "t_order_item")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
-    private String id;
+@Builder
+@Data
+public class OrderItem {
     private String skuCode;
-    private String name;
-    private String description;
-    private Double price;
+    private String quantity;
 }

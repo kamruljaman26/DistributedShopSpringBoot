@@ -7,14 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="shop-service" />
         <module name="order-service" />
+        <module name="DistributedShopSpringBoot" />
         <module name="customer-service" />
         <module name="article-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="product-service" target="17" />
+      <module name="shop-service (1)" target="17" />
+      <module name="shop-service (2)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +26,8 @@
       <module name="order-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="shop-service" options="-parameters" />
+      <module name="shop-service (1)" options="-parameters" />
+      <module name="shop-service (2)" options="-parameters" />
     </option>
   </component>
 </project>
