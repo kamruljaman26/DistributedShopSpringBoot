@@ -27,4 +27,25 @@ public class ArticleController {
     public List<ArticleResponse> getArticles() {
         return articleService.getAllArticles();
     }
+
+    // READ SINGLE ARTICLE
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ArticleResponse getArticle(@PathVariable Long id) {
+        return articleService.getArticleById(id);
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ArticleResponse updateArticle(@PathVariable Long id, @RequestBody ArticleRequest articleRequest) {
+        return articleService.updateArticle(id, articleRequest);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteArticle(@PathVariable Long id) {
+        articleService.deleteArticle(id);
+    }
 }
