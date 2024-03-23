@@ -1,14 +1,13 @@
-package com.shop.shop.dto;
+package com.shop.discovery.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequest {
-    private List<OrderItemDto> orderItemDtoList;
+public class OrderItemDto {
+    private String skuCode;
+    private String quantity;
 }

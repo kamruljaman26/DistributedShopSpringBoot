@@ -1,4 +1,4 @@
-package com.shop.shop.dto;
+package com.shop.discovery.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerResponse {
-    private Long id;
+public class CustomerRequest {
     private String firstName;
     private String lastName;
     private String email;
+    private String password; // Raw password, which will be hashed before being stored
 }
+

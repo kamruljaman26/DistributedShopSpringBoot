@@ -43,4 +43,24 @@ public class ProductService {
                 .price(product.getPrice())
                 .build();
     }
+
+    public ProductResponse getProductById(String id) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return mapToProductResponse(product);
+    }
+
+    public void updateProduct(String id, ProductRequest productRequest) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setName(productRequest.getName());
+        product.setSkuCode(productRequest.getSkuCode());
+        product.setDescription(productRequest.getDescription());
+        product.setPrice(productRequest.getPrice());
+        productRepo.save(product);
+    }
+
+    public void deleteProduct(String id) {
+        productRepo.deleteById(id);
+    }
 }

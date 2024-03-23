@@ -1,4 +1,4 @@
-package com.shop.shop;
+package com.shop.discovery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

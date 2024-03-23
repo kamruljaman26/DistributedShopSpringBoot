@@ -1,6 +1,6 @@
-package com.shop.shop.controller;
+package com.shop.discovery.controller;
 
-import com.shop.shop.dto.*;
+import com.shop.discovery.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -20,32 +20,14 @@ public class ShopController {
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * Customer Section
+     */
     // Get All Customers
     @GetMapping("/customers")
     public List<CustomerResponse> getAllCustomers() {
         CustomerResponse[] customers = restTemplate.getForObject(CUSTOMER_SERVICE_URL, CustomerResponse[].class);
         return Arrays.asList(customers);
-    }
-
-    // Get All Orders
-    @GetMapping("/orders")
-    public List<OrderResponse> getAllOrders() {
-        OrderResponse[] orders = restTemplate.getForObject(ORDER_SERVICE_URL, OrderResponse[].class);
-        return Arrays.asList(orders);
-    }
-
-    // Get All Articles
-    @GetMapping("/articles")
-    public List<ArticleResponse> getAllArticles() {
-        ArticleResponse[] articles = restTemplate.getForObject(ARTICLE_SERVICE_URL, ArticleResponse[].class);
-        return Arrays.asList(articles);
-    }
-
-    // Get All Products
-    @GetMapping("/products")
-    public List<ProductResponse> getAllProducts() {
-        ProductResponse[] products = restTemplate.getForObject(PRODUCT_SERVICE_URL, ProductResponse[].class);
-        return Arrays.asList(products);
     }
 
     // Create Customer
@@ -72,6 +54,49 @@ public class ShopController {
         restTemplate.delete(CUSTOMER_SERVICE_URL + "/" + id);
     }
 
+
+    /**
+     * Order and Products
+     */
+
+    // Create Product
+    @PostMapping("/products")
+    public ProductResponse createProduct(@RequestBody ProductRequest request) {
+        return restTemplate.postForObject(PRODUCT_SERVICE_URL, request, ProductResponse.class);
+    }
+
+    // Get All Products
+    @GetMapping("/products")
+    public List<ProductResponse> getAllProducts() {
+        ProductResponse[] products = restTemplate.getForObject(PRODUCT_SERVICE_URL, ProductResponse[].class);
+        return Arrays.asList(products);
+    }
+
+    // Get Single Product by ID
+    @GetMapping("/products/{id}")
+    public ProductResponse getProduct(@PathVariable Long id) {
+        return restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductResponse.class);
+    }
+
+    // Update Product
+    @PutMapping("/products/{id}")
+    public void updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
+        restTemplate.put(PRODUCT_SERVICE_URL + "/" + id, request);
+    }
+
+    // Delete Product
+    @DeleteMapping("/products/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        restTemplate.delete(PRODUCT_SERVICE_URL + "/" + id);
+    }
+
+    // Get All Orders
+    @GetMapping("/orders")
+    public List<OrderResponse> getAllOrders() {
+        OrderResponse[] orders = restTemplate.getForObject(ORDER_SERVICE_URL, OrderResponse[].class);
+        return Arrays.asList(orders);
+    }
+
     // Order Endpoints
     @PostMapping("/orders")
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
@@ -92,6 +117,16 @@ public class ShopController {
     @DeleteMapping("/orders/{id}")
     public void deleteOrder(@PathVariable Long id) {
         restTemplate.delete(ORDER_SERVICE_URL + "/" + id);
+    }
+
+    /**
+     * Article Section
+     */
+    // Get All Articles
+    @GetMapping("/articles")
+    public List<ArticleResponse> getAllArticles() {
+        ArticleResponse[] articles = restTemplate.getForObject(ARTICLE_SERVICE_URL, ArticleResponse[].class);
+        return Arrays.asList(articles);
     }
 
     // Article Endpoints

@@ -1,4 +1,4 @@
-package com.shop.shop.dto;
+package com.shop.discovery.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
-    private String id;
-    private String skuCode;
+@AllArgsConstructor
+public class ArticleRequest {
     private String name;
     private String description;
-    private Double price;
 }
