@@ -21,21 +21,23 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     // Create a new customer
     public CustomerResponse createCustomer(CustomerRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .passwordHash(passwordEncoder.encode(request.getPassword()))
+                .passwordHash(createHashPassword(request.getPassword()))
                 .build();
 
         customer = customerRepository.save(customer);
         log.info("Customer created with ID: {}", customer.getId());
         return mapToDto(customer);
+    }
+
+    // todo: security update
+    private String createHashPassword(String password) {
+        return password;
     }
 
     // Get a specific customer by ID
@@ -61,7 +63,7 @@ public class CustomerService {
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
         customer.setEmail(request.getEmail());
-        customer.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        customer.setPasswordHash(createHashPassword(request.getPassword()));
 
         customer = customerRepository.save(customer);
         log.info("Customer updated with ID: {}", customer.getId());
