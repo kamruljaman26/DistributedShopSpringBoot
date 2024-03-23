@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,6 +14,5 @@ import lombok.NoArgsConstructor;
 public class OrderResponse {
     private String id;
     private String orderNumber;
-//    private List<OrderItem> orderItemsList;
-    // todo fix
+    private List<OrderItemDto> orderItemsList;
 }

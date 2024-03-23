@@ -18,5 +18,5 @@ import java.util.List;
 public class OrderResponse {
     private String id;
     private String orderNumber;
-    private List<OrderItem> orderItemsList;
+    private List<OrderItemDto> orderItemsList;
 }

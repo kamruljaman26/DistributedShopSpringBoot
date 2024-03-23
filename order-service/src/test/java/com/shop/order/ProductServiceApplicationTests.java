@@ -81,7 +81,7 @@ class ProductServiceApplicationTests {
         return ProductRequest.builder()
                 .name("iphone 12")
                 .description("iphone 12")
-                .Price(123.0)
+                .price(123.0)
                 .build();
     }
 

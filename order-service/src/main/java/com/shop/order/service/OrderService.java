@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,24 +39,6 @@ public class OrderService {
                 .map(OrderItem::getSkuCode)
                 .toList();
 
-/*        // Call Inventory Service, and place order if product is in
-        // stock
-        InventoryResponse[] inventoryResponsArray = webClient.get()
-                .uri("http://localhost:8082/api/inventory",
-                        uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-                .retrieve()
-                .bodyToMono(InventoryResponse[].class)
-                .block();
-
-        boolean allProductsInStock = Arrays.stream(inventoryResponsArray)
-                .allMatch(InventoryResponse::isInStock);
-
-        if(allProductsInStock){
-            orderRepository.save(order);
-        } else {
-            throw new IllegalArgumentException("Product is not in stock, please try again later");
-        }*/
-
         orderRepository.save(order);
     }
 
@@ -72,10 +55,19 @@ public class OrderService {
     }
 
     private OrderResponse mapToOrderResponse(Order order) {
+        List<OrderItemDto> orderItemList = new ArrayList<>();
+        for (OrderItem orderItem:order.getOrderItemList()){
+            orderItemList.add(OrderItemDto.builder()
+                    .skuCode(orderItem.getSkuCode())
+                    .quantity(orderItem.getQuantity())
+                    .build()
+            );
+        }
+
         return OrderResponse.builder()
                 .orderNumber(order.getOrderNumber())
                 .id(order.getId())
-                .orderItemsList(order.getOrderItemList())
+                .orderItemsList(orderItemList)
                 .build();
     }
 
