@@ -3,152 +3,222 @@ package com.shop.discovery.controller;
 import com.shop.discovery.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/shop")
 public class ShopController {
 
-    private final String CUSTOMER_SERVICE_URL = "http://localhost:8083/api/customer";
-    private final String ORDER_SERVICE_URL = "http://localhost:8081/api/order";
-    private final String PRODUCT_SERVICE_URL = "http://localhost:8081/api/product";
-    private final String ARTICLE_SERVICE_URL = "http://localhost:8082/api/article";
+    private final String CUSTOMER_SERVICE_URL = "http://customer-service/api/customer";
+    private final String ORDER_SERVICE_URL = "http://order-service/api/order";
+    private final String PRODUCT_SERVICE_URL = "http://order-service/api/product";
+    private final String ARTICLE_SERVICE_URL = "http://article-service/api/article";
+    private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    private RestTemplate restTemplate;
+    public ShopController(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     /**
      * Customer Section
      */
     // Get All Customers
     @GetMapping("/customers")
-    public List<CustomerResponse> getAllCustomers() {
-        CustomerResponse[] customers = restTemplate.getForObject(CUSTOMER_SERVICE_URL, CustomerResponse[].class);
-        return Arrays.asList(customers);
+    public Mono<List<CustomerResponse>> getAllCustomers() {
+        return webClientBuilder.build().get()
+                .uri(CUSTOMER_SERVICE_URL)
+                .retrieve()
+                .bodyToFlux(CustomerResponse.class)
+                .collectList();
     }
 
     // Create Customer
     @PostMapping("/customers")
-    public CustomerResponse createCustomer(@RequestBody CustomerRequest request) {
-        return restTemplate.postForObject(CUSTOMER_SERVICE_URL, request, CustomerResponse.class);
+    public Mono<CustomerResponse> createCustomer(@RequestBody CustomerRequest request) {
+        return webClientBuilder.build().get()
+                .uri(CUSTOMER_SERVICE_URL)
+//                .body(Mono.just(request), CustomerRequest.class)
+                .retrieve()
+                .bodyToMono(CustomerResponse.class);
     }
 
     // Get Customer by ID
     @GetMapping("/customers/{id}")
-    public CustomerResponse getCustomer(@PathVariable Long id) {
-        return restTemplate.getForObject(CUSTOMER_SERVICE_URL + "/" + id, CustomerResponse.class);
+    public Mono<CustomerResponse> getCustomer(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(CUSTOMER_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(CustomerResponse.class);
     }
 
     // Update Customer
     @PutMapping("/customers/{id}")
-    public void updateCustomer(@PathVariable Long id, @RequestBody CustomerRequest request) {
-        restTemplate.put(CUSTOMER_SERVICE_URL + "/" + id, request);
+    public Mono<Void> updateCustomer(@PathVariable Long id, @RequestBody CustomerRequest request) {
+        return webClientBuilder.build().get()
+                .uri(CUSTOMER_SERVICE_URL + "/" + id)
+//                .body(Mono.just(request), CustomerRequest.class)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
     // Delete Customer
     @DeleteMapping("/customers/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
-        restTemplate.delete(CUSTOMER_SERVICE_URL + "/" + id);
+    public Mono<Void> deleteCustomer(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(CUSTOMER_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
-
 
     /**
      * Order and Products
      */
-
     // Create Product
     @PostMapping("/products")
-    public ProductResponse createProduct(@RequestBody ProductRequest request) {
-        return restTemplate.postForObject(PRODUCT_SERVICE_URL, request, ProductResponse.class);
+    public Mono<ProductResponse> createProduct(@RequestBody ProductRequest request) {
+        return webClientBuilder.build().get()
+                .uri(PRODUCT_SERVICE_URL)
+//                .body(Mono.just(request), ProductRequest.class)
+                .retrieve()
+                .bodyToMono(ProductResponse.class);
     }
 
     // Get All Products
     @GetMapping("/products")
-    public List<ProductResponse> getAllProducts() {
-        ProductResponse[] products = restTemplate.getForObject(PRODUCT_SERVICE_URL, ProductResponse[].class);
-        return Arrays.asList(products);
+    public Mono<List<ProductResponse>> getAllProducts() {
+        return webClientBuilder.build().get()
+                .uri(PRODUCT_SERVICE_URL)
+                .retrieve()
+                .bodyToFlux(ProductResponse.class)
+                .collectList();
     }
 
     // Get Single Product by ID
     @GetMapping("/products/{id}")
-    public ProductResponse getProduct(@PathVariable Long id) {
-        return restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductResponse.class);
+    public Mono<ProductResponse> getProduct(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(PRODUCT_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(ProductResponse.class);
     }
 
     // Update Product
     @PutMapping("/products/{id}")
-    public void updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
-        restTemplate.put(PRODUCT_SERVICE_URL + "/" + id, request);
+    public Mono<Void> updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
+        return webClientBuilder.build().get()
+                .uri(PRODUCT_SERVICE_URL + "/" + id)
+//                .body(Mono.just(request), ProductRequest.class)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
     // Delete Product
     @DeleteMapping("/products/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        restTemplate.delete(PRODUCT_SERVICE_URL + "/" + id);
+    public Mono<Void> deleteProduct(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(PRODUCT_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
     // Get All Orders
-    @GetMapping("/orders")
-    public List<OrderResponse> getAllOrders() {
-        OrderResponse[] orders = restTemplate.getForObject(ORDER_SERVICE_URL, OrderResponse[].class);
-        return Arrays.asList(orders);
+// Order Endpoints
+    @PostMapping("/orders")
+    public Mono<OrderResponse> createOrder(@RequestBody OrderRequest request) {
+        return webClientBuilder.build().get()
+                .uri(ORDER_SERVICE_URL)
+//                .body(Mono.just(request), OrderRequest.class)
+                .retrieve()
+                .bodyToMono(OrderResponse.class);
     }
 
-    // Order Endpoints
-    @PostMapping("/orders")
-    public OrderResponse createOrder(@RequestBody OrderRequest request) {
-        return restTemplate.postForObject(ORDER_SERVICE_URL, request, OrderResponse.class);
+    @GetMapping("/orders")
+    public Mono<List<OrderResponse>> getAllOrders() {
+        return webClientBuilder.build().get()
+                .uri(ORDER_SERVICE_URL)
+                .retrieve()
+                .bodyToFlux(OrderResponse.class)
+                .collectList();
     }
 
     @GetMapping("/orders/{id}")
-    public OrderResponse getOrder(@PathVariable Long id) {
-        return restTemplate.getForObject(ORDER_SERVICE_URL + "/" + id, OrderResponse.class);
+    public Mono<OrderResponse> getOrder(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(ORDER_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(OrderResponse.class);
     }
 
     @PutMapping("/orders/{id}")
-    public OrderResponse updateOrder(@PathVariable Long id, @RequestBody OrderRequest request) {
-        restTemplate.put(ORDER_SERVICE_URL + "/" + id, request);
-        return getOrder(id);  // Fetch the updated order
+    public Mono<Void> updateOrder(@PathVariable Long id, @RequestBody OrderRequest request) {
+        return webClientBuilder.build().get()
+                .uri(ORDER_SERVICE_URL + "/" + id)
+//                .body(Mono.just(request), OrderRequest.class)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
     @DeleteMapping("/orders/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        restTemplate.delete(ORDER_SERVICE_URL + "/" + id);
+    public Mono<Void> deleteOrder(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(ORDER_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
     /**
      * Article Section
      */
+
     // Get All Articles
     @GetMapping("/articles")
-    public List<ArticleResponse> getAllArticles() {
-        ArticleResponse[] articles = restTemplate.getForObject(ARTICLE_SERVICE_URL, ArticleResponse[].class);
-        return Arrays.asList(articles);
+    public Mono<List<ArticleResponse>> getAllArticles() {
+        return webClientBuilder.build().get()
+                .uri(ARTICLE_SERVICE_URL)
+                .retrieve()
+                .bodyToFlux(ArticleResponse.class)
+                .collectList();
     }
 
-    // Article Endpoints
+    // Create Article
     @PostMapping("/articles")
-    public ArticleResponse createArticle(@RequestBody ArticleRequest request) {
-        return restTemplate.postForObject(ARTICLE_SERVICE_URL, request, ArticleResponse.class);
+    public Mono<ArticleResponse> createArticle(@RequestBody ArticleRequest request) {
+        return webClientBuilder.build().get()
+                .uri(ARTICLE_SERVICE_URL)
+//                .body(Mono.just(request), ArticleRequest.class)
+                .retrieve()
+                .bodyToMono(ArticleResponse.class);
     }
 
+    // Get Single Article by ID
     @GetMapping("/articles/{id}")
-    public ArticleResponse getArticle(@PathVariable Long id) {
-        return restTemplate.getForObject(ARTICLE_SERVICE_URL + "/" + id, ArticleResponse.class);
+    public Mono<ArticleResponse> getArticle(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(ARTICLE_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(ArticleResponse.class);
     }
 
+    // Update Article
     @PutMapping("/articles/{id}")
-    public ArticleResponse updateArticle(@PathVariable Long id, @RequestBody ArticleRequest request) {
-        restTemplate.put(ARTICLE_SERVICE_URL + "/" + id, request);
-        return getArticle(id);  // Fetch the updated article
+    public Mono<Void> updateArticle(@PathVariable Long id, @RequestBody ArticleRequest request) {
+        return webClientBuilder.build().get()
+                .uri(ARTICLE_SERVICE_URL + "/" + id)
+//                .body(Mono.just(request), ArticleRequest.class)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
+    // Delete Article
     @DeleteMapping("/articles/{id}")
-    public void deleteArticle(@PathVariable Long id) {
-        restTemplate.delete(ARTICLE_SERVICE_URL + "/" + id);
+    public Mono<Void> deleteArticle(@PathVariable Long id) {
+        return webClientBuilder.build().get()
+                .uri(ARTICLE_SERVICE_URL + "/" + id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
-
 }

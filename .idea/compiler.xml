@@ -12,12 +12,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="shop-service" />
         <module name="order-service" />
+        <module name="discovery-server" />
         <module name="customer-service" />
         <module name="article-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="discovery-server" target="17" />
+      <module name="discovery-server (1) (com.programming.techie)" target="17" />
+      <module name="discovery-server (2) (org.example)" target="17" />
       <module name="product-service" target="17" />
       <module name="shop-service (1)" target="17" />
       <module name="shop-service (2)" target="17" />
@@ -27,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="article-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="order-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="shop-service" options="-parameters" />
