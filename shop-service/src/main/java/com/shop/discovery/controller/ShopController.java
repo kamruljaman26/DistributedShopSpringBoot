@@ -39,9 +39,9 @@ public class ShopController {
     // Create Customer
     @PostMapping("/customers")
     public Mono<CustomerResponse> createCustomer(@RequestBody CustomerRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().post()
                 .uri(CUSTOMER_SERVICE_URL)
-//                .body(Mono.just(request), CustomerRequest.class)
+                .body(Mono.just(request), CustomerRequest.class)
                 .retrieve()
                 .bodyToMono(CustomerResponse.class);
     }
@@ -58,9 +58,9 @@ public class ShopController {
     // Update Customer
     @PutMapping("/customers/{id}")
     public Mono<Void> updateCustomer(@PathVariable Long id, @RequestBody CustomerRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().put()
                 .uri(CUSTOMER_SERVICE_URL + "/" + id)
-//                .body(Mono.just(request), CustomerRequest.class)
+                .body(Mono.just(request), CustomerRequest.class)
                 .retrieve()
                 .bodyToMono(Void.class);
     }
@@ -68,7 +68,7 @@ public class ShopController {
     // Delete Customer
     @DeleteMapping("/customers/{id}")
     public Mono<Void> deleteCustomer(@PathVariable Long id) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().delete()
                 .uri(CUSTOMER_SERVICE_URL + "/" + id)
                 .retrieve()
                 .bodyToMono(Void.class);
@@ -80,7 +80,7 @@ public class ShopController {
     // Create Product
     @PostMapping("/products")
     public Mono<ProductResponse> createProduct(@RequestBody ProductRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().post()
                 .uri(PRODUCT_SERVICE_URL)
 //                .body(Mono.just(request), ProductRequest.class)
                 .retrieve()
@@ -109,7 +109,7 @@ public class ShopController {
     // Update Product
     @PutMapping("/products/{id}")
     public Mono<Void> updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().put()
                 .uri(PRODUCT_SERVICE_URL + "/" + id)
 //                .body(Mono.just(request), ProductRequest.class)
                 .retrieve()
@@ -119,7 +119,7 @@ public class ShopController {
     // Delete Product
     @DeleteMapping("/products/{id}")
     public Mono<Void> deleteProduct(@PathVariable Long id) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().delete()
                 .uri(PRODUCT_SERVICE_URL + "/" + id)
                 .retrieve()
                 .bodyToMono(Void.class);
@@ -129,9 +129,9 @@ public class ShopController {
 // Order Endpoints
     @PostMapping("/orders")
     public Mono<OrderResponse> createOrder(@RequestBody OrderRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().post()
                 .uri(ORDER_SERVICE_URL)
-//                .body(Mono.just(request), OrderRequest.class)
+                .body(Mono.just(request), OrderRequest.class)
                 .retrieve()
                 .bodyToMono(OrderResponse.class);
     }
@@ -155,16 +155,16 @@ public class ShopController {
 
     @PutMapping("/orders/{id}")
     public Mono<Void> updateOrder(@PathVariable Long id, @RequestBody OrderRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().put()
                 .uri(ORDER_SERVICE_URL + "/" + id)
-//                .body(Mono.just(request), OrderRequest.class)
+                .body(Mono.just(request), OrderRequest.class)
                 .retrieve()
                 .bodyToMono(Void.class);
     }
 
     @DeleteMapping("/orders/{id}")
     public Mono<Void> deleteOrder(@PathVariable Long id) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().delete()
                 .uri(ORDER_SERVICE_URL + "/" + id)
                 .retrieve()
                 .bodyToMono(Void.class);
@@ -187,9 +187,9 @@ public class ShopController {
     // Create Article
     @PostMapping("/articles")
     public Mono<ArticleResponse> createArticle(@RequestBody ArticleRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().post()
                 .uri(ARTICLE_SERVICE_URL)
-//                .body(Mono.just(request), ArticleRequest.class)
+                .body(Mono.just(request), ArticleRequest.class)
                 .retrieve()
                 .bodyToMono(ArticleResponse.class);
     }
@@ -206,9 +206,9 @@ public class ShopController {
     // Update Article
     @PutMapping("/articles/{id}")
     public Mono<Void> updateArticle(@PathVariable Long id, @RequestBody ArticleRequest request) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().put()
                 .uri(ARTICLE_SERVICE_URL + "/" + id)
-//                .body(Mono.just(request), ArticleRequest.class)
+                .body(Mono.just(request), ArticleRequest.class)
                 .retrieve()
                 .bodyToMono(Void.class);
     }
@@ -216,7 +216,7 @@ public class ShopController {
     // Delete Article
     @DeleteMapping("/articles/{id}")
     public Mono<Void> deleteArticle(@PathVariable Long id) {
-        return webClientBuilder.build().get()
+        return webClientBuilder.build().delete()
                 .uri(ARTICLE_SERVICE_URL + "/" + id)
                 .retrieve()
                 .bodyToMono(Void.class);
